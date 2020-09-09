@@ -1,0 +1,5 @@
+PLACE 10,0,NORTH
+MOVE
+REPORT
+
+Expected result:

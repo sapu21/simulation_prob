@@ -1,0 +1,8 @@
+PLACE 1,2,EAST
+GO
+WEST
+EAST
+REPORT
+
+Expected result:
+Output: 1,2,EAST

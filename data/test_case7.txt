@@ -1,0 +1,10 @@
+PLACE 1,2,EAST
+MOVE
+MOVE
+LEFT
+MOVE
+Something, not a command
+REPORT
+
+Expected result:
+Output: 3,3,NORTH

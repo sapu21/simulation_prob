@@ -1,0 +1,107 @@
+require 'rspec'
+require 'spec_helper'
+require './lib/input_handler'
+
+describe InputHandler do
+  describe '#initialize' do
+    it 'should have a robot attribute which is an instance of Robot' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+
+      expect(instance.robot).to be_a Robot
+    end
+
+    it 'should have a table attribute which is an instance of Table' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+
+      expect(instance.table).to be_a Table
+    end
+
+    it 'should have an action attribute which is an instance of Action' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+
+      expect(instance.action).to be_a Action
+    end
+  end
+
+  describe '#interpret' do
+    it 'should return an instance of Position when command matches PLACE pattern' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+      command = 'PLACE 1,2,NORTH'
+
+      expect(instance.interpret(command)).to be_a Position
+    end
+
+    it 'should return nil when robot is not in place' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+      command = ''
+
+      expect(instance.interpret(command)).to be_nil
+    end
+
+    it 'should return an instance of Position when command matches MOVE pattern' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+      command1 = 'PLACE 1,2,NORTH'
+      command2 = 'MOVE'
+
+      instance.interpret(command1)
+
+      expect(instance.interpret(command2)).to be_a Position
+    end
+
+    it 'should return an instance of Position when command matches LEFT pattern' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+      command1 = 'PLACE 1,2,NORTH'
+      command2 = 'LEFT'
+
+      instance.interpret(command1)
+
+      expect(instance.interpret(command2)).to be_a Position
+    end
+
+    it 'should return an instance of Position when command matches RIGHT pattern' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+      command1 = 'PLACE 1,2,NORTH'
+      command2 = 'RIGHT'
+
+      instance.interpret(command1)
+
+      expect(instance.interpret(command2)).to be_a Position
+    end
+
+    it 'should return an instance of Position when command matches REPORT pattern' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+      command1 = 'PLACE 1,2,NORTH'
+      command2 = 'REPORT'
+
+      instance.interpret(command1)
+
+      expect(instance.interpret(command2)).to be_a Position
+    end
+  end
+
+  describe '#next_position' do
+    it 'should return an instance of Position' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+      position = Position.new(0, 0, 'NORTH')
+      command = 'MOVE'
+
+      expect(instance.send(:next_position, position, command)).to be_a Position
+    end
+  end
+
+  describe '#exec' do
+    it 'should return an instance of Position' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+      position = Position.new(0, 0, 'NORTH')
+
+      expect(instance.send(:exec, position)).to be_a Position
+    end
+
+    it 'should return nil if position is not a valid table position' do
+      instance = InputHandler.new(Robot.new, Table.new, Action.new)
+      position = Position.new(0, 6, 'NORTH')
+
+      expect(instance.send(:exec, position)).to be_nil
+    end
+  end
+end
